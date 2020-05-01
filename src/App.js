@@ -8,7 +8,8 @@ import BookList from './BookList';
 class BooksApp extends Component {
   state = {
     books: [],
-    showSearchPage: false
+    searchedBooks: [],
+    shelf: ["wantToRead", "currentlyReading", "read"],
   }
 
   componentDidMount() {
@@ -20,6 +21,18 @@ class BooksApp extends Component {
       })
   }
 
+  updateShelf = (book, shelf) => {
+    BooksAPI.update(book, shelf)
+      .then(this.setState(state => ({
+        books: state.books.concat(state.searchedBooks)
+          .map(item => {
+            if (item.id === book.id)
+                item.shelf = shelf;
+            return item;
+        })
+    })))
+  }
+
   render() {
     return (
       <div className="app">
@@ -28,6 +41,7 @@ class BooksApp extends Component {
           <BookList
             books={this.state.books}
             onDeleteBook={this.removeBook}
+            updateShelf={this.updateShelf}
           />
         )} />
 
