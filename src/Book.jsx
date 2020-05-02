@@ -23,7 +23,7 @@ class Book extends React.Component {
                     </div>
                     <div className="book-title">{book.title}</div>
                     {book.authors.map(author => 
-                        <div className="book-authors">{author}</div>
+                        <div key={author} className="book-authors">{author}</div>
                     )}
                 </div>
             </li>
@@ -32,7 +32,7 @@ class Book extends React.Component {
   };
   
   Book.propTypes = {
-    book: PropTypes.string.isRequired,
+    book: PropTypes.object.isRequired,
   };
 
 export default Book;

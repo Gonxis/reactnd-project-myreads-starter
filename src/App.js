@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Route } from 'react-router-dom';
+import { Route, Link } from 'react-router-dom';
 import * as BooksAPI from './BooksAPI';
 import './App.css'
 import BookList from './BookList';
+import Search from './Search';
 
 
 class BooksApp extends Component {
@@ -33,6 +34,22 @@ class BooksApp extends Component {
     })))
   }
 
+  /* handleSearch = (query) => {
+    BooksAPI.search(query, 20).then(searchResult => {
+        const noShelf = searchResult.filter(book => !book.shelf).map(item => {
+            if (this.state.books.find(b => b.id === item.id)) {
+                this.state.books.filter(b => b.id === item.id).map(book => {
+                    item.shelf = book.shelf
+                })
+            } else {
+                item.shelf = "none"
+            }
+            return item
+        })
+        this.setState({searchedBooks: noShelf})
+    })
+  } */
+
   render() {
     return (
       <div className="app">
@@ -40,24 +57,25 @@ class BooksApp extends Component {
         <Route exact path="/" render={() => (
           <BookList
             books={this.state.books}
-            onDeleteBook={this.removeBook}
             updateShelf={this.updateShelf}
           />
         )} />
 
-        <Route path="/search" render= {({ history }) => (
-          <div className="search-books">
-          <div className="search-books-bar">
-            <button className="close-search" onClick={() => this.setState({ showSearchPage: false })}>Close</button>
-            <div className="search-books-input-wrapper">
-              <input type="text" placeholder="Search by title or author"/>
-            </div>
-          </div>
-          <div className="search-books-results">
-            <ol className="books-grid"></ol>
-          </div>
-        </div>
+        <Route path="/search" render= {() => (
+          <Search 
+            searchedBooks={this.state.searchedBooks}
+            books={this.state.books}
+            updateShelf={this.updateShelf}
+          />
         )} />
+
+        <button>
+          <Link to='/search'
+            className='open-search'
+          >
+            Search a book
+          </Link>
+        </button> 
       </div>
     )
   }
