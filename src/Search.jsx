@@ -1,32 +1,45 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import Book from './Book';
+import * as BooksAPI from './BooksAPI';
 
 class Search extends Component {
 
     state = {
-        query: ''
+        query: '',
+        search: []
     }
 
     updateQuery = query => {
-        this.setState(() => ({
-            query: query
-        }))
+        this.setState(
+            { query },
+        )
+          
+        BooksAPI.search(query).then(books => {
+            if (!Array.isArray(books)) {
+                this.setState({
+                    search: []
+                })
+                return
+            }
+            
+            this.setState({
+                search: books.map(book => {
+                    const found = this.props.books.find(b => book.id === b.id)
+                        if (found)
+                            book.shelf = found.shelf
+                        else
+                            book.shelf = 'none'
+                        return book
+                })
+            })
+        })
     }
 
     render() {
 
-        const { books, updateShelf, searchedBooks } = this.props;
-        const { query } = this.state;
-
-        const showingBooks = query === ''
-            ? searchedBooks
-            : books.filter(book => (
-                book.title.toLowerCase().includes(query.toLocaleLowerCase())
-            )) || 
-              books.authors.filter(author => (
-                    author.toLowerCase().includes(query.toLocaleLowerCase())
-                ))
+        const { updateShelf } = this.props;
+        const { query, search } = this.state;
 
         return (
             <div className="search-books">
@@ -47,9 +60,13 @@ class Search extends Component {
                 </div>
                 <div className="search-books-results">
                     <ol className="books-grid">
-                    {showingBooks.map( book => (
-                        <Book key={book.id} book={book} updateBook={updateShelf}/>
-                    ))}
+                    {search === undefined || search.length < 1
+                        ? 'Not results found yet...' 
+                        : search.map( book => (
+                            <Book key={book.id} book={book} updateBook={updateShelf}/>
+                        ))
+                        //console.log(search)
+                    }
                     </ol>
                 </div>
             </div>

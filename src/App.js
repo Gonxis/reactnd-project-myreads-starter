@@ -34,22 +34,6 @@ class BooksApp extends Component {
     })))
   }
 
-  /* handleSearch = (query) => {
-    BooksAPI.search(query, 20).then(searchResult => {
-        const noShelf = searchResult.filter(book => !book.shelf).map(item => {
-            if (this.state.books.find(b => b.id === item.id)) {
-                this.state.books.filter(b => b.id === item.id).map(book => {
-                    item.shelf = book.shelf
-                })
-            } else {
-                item.shelf = "none"
-            }
-            return item
-        })
-        this.setState({searchedBooks: noShelf})
-    })
-  } */
-
   render() {
     return (
       <div className="app">
