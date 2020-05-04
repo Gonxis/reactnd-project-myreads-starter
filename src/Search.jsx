@@ -14,6 +14,15 @@ class Search extends Component {
         }))
     }
 
+    filterByAuthorOrTitle(books, query) {
+       const filteredBooks = books.filter(book => {
+           return book.title.toLowerCase().includes(query.toLocaleLowerCase())
+            || book.authors.find(author => author.toLowerCase().includes(query.toLocaleLowerCase()))
+        })
+
+        return filteredBooks
+    }
+
     render() {
 
         const { books, updateShelf, searchedBooks } = this.props;
@@ -21,12 +30,7 @@ class Search extends Component {
 
         const showingBooks = query === ''
             ? searchedBooks
-            : books.filter(book => (
-                book.title.toLowerCase().includes(query.toLocaleLowerCase())
-            )) || 
-              books.authors.filter(author => (
-                    author.toLowerCase().includes(query.toLocaleLowerCase())
-                ))
+            : this.filterByAuthorOrTitle(books, query)
 
         return (
             <div className="search-books">
