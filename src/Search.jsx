@@ -21,8 +21,7 @@ class Search extends Component {
                     search: []
                 })
                 return
-            }
-            
+            } 
             this.setState({
                 search: books.map(book => {
                     const found = this.props.books.find(b => book.id === b.id)
@@ -65,7 +64,6 @@ class Search extends Component {
                         : search.map( book => (
                             <Book key={book.id} book={book} updateBook={updateShelf}/>
                         ))
-                        //console.log(search)
                     }
                     </ol>
                 </div>
