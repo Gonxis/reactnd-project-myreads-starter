@@ -10,12 +10,13 @@ class Search extends Component {
         search: []
     }
 
-    updateQuery = query => {
+    async updateQuery(query) {
         this.setState(
             { query },
         )
           
-        BooksAPI.search(query).then(books => {
+        const books = await BooksAPI.search(query)
+        
             if (!Array.isArray(books)) {
                 this.setState({
                     search: []
@@ -32,7 +33,7 @@ class Search extends Component {
                         return book
                 })
             })
-        })
+        
     }
 
     render() {

@@ -13,13 +13,9 @@ class BooksApp extends Component {
     shelf: ["wantToRead", "currentlyReading", "read"],
   }
 
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then(books => {
-        this.setState(() => ({
-          books
-        }))
-      })
+  async componentDidMount() {
+    const books = await BooksAPI.getAll()
+    this.setState({ books })
   }
 
   updateShelf = (book, shelf) => {
