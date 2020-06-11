@@ -4,6 +4,8 @@ This is the first project for Udacity's React Nanodegree course. The goal of thi
 
 This is a React Project to organizing your virtual books (only cover and name for now). Here you can organize the books by shelf (Currently reading, Want to read and Read). Also you can search by a limited search terms. Is't very simple and intuitive to use.
 
+[Live demo here](https://myreads-cdpd0oz97.now.sh/)
+
 ## Set up and installation of the project
 
 In order to get started with the project, you only need to execute the next commands in the location where you have this project in the terminal:
